@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@layer base {
+  * {
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: #1a1a1a;
+  }
+
+  .logo {
+    user-select: none;
+    font-family: 'Orbitron', sans-serif;
+  }
+}
