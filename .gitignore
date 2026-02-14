@@ -5,4 +5,4 @@ dist-ssr
 dev-dist
 *.local
 .env
-src/styles.css
+package-lock.json
