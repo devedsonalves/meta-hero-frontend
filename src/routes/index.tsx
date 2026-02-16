@@ -3,6 +3,7 @@ import Articles from '@/features/dashboard/pages'
 import PrivateRoute from './private-route'
 import PublicRoute from './public-route'
 import LoginPage from '@/features/login/pages'
+import RegisterPage from '@/features/register/pages'
 
 const Router = () => (
   <BrowserRouter>
@@ -12,6 +13,14 @@ const Router = () => (
         element={
           <PublicRoute>
             <LoginPage />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/registro"
+        element={
+          <PublicRoute>
+            <RegisterPage />
           </PublicRoute>
         }
       />
