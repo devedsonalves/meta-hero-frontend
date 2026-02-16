@@ -9,7 +9,7 @@ interface Props {
 const PublicRoute: React.FC<Props> = ({ children }) => {
   const { isAuthenticated } = useAuthStore((state) => state)
 
-  return isAuthenticated ? <Navigate to="/articles" /> : children
+  return isAuthenticated ? <Navigate to="/dashboard" /> : children
 }
 
 export default PublicRoute

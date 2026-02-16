@@ -1,17 +1,17 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Articles from '@/features/dashboard/pages'
-import Home from '@/features/home/pages'
 import PrivateRoute from './private-route'
 import PublicRoute from './public-route'
+import LoginPage from '@/features/login/pages'
 
 const Router = () => (
   <BrowserRouter>
     <Routes>
       <Route
-        path="/"
+        path="/entrar"
         element={
           <PublicRoute>
-            <Home />
+            <LoginPage />
           </PublicRoute>
         }
       />

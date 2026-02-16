@@ -1,6 +1,7 @@
 {
   "name": "meta-hero-frontend",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -20,16 +21,22 @@
     ]
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^5.1.1",
     "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
+    "clsx": "^2.1.1",
     "concurrently": "^9.2.0",
+    "framer-motion": "^12.34.0",
+    "gsap": "^3.14.2",
+    "lucide-react": "^0.564.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.59.0",
     "react-router": "^7.6.3",
     "react-router-dom": "^7.6.3",
     "react-toastify": "^11.0.5",
+    "tailwind-merge": "^3.4.0",
     "vite-tsconfig-paths": "^5.1.4",
     "yup": "^1.6.1",
     "zustand": "^5.0.6"
