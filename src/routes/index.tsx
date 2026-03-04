@@ -4,10 +4,19 @@ import PrivateRoute from './private-route'
 import PublicRoute from './public-route'
 import LoginPage from '@/features/login/pages'
 import RegisterPage from '@/features/register/pages'
+import LandingPage from '@/features/landing/pages'
 
 const Router = () => (
   <BrowserRouter>
     <Routes>
+      <Route
+        path="/"
+        element={
+          <PublicRoute>
+            <LandingPage />
+          </PublicRoute>
+        }
+      />
       <Route
         path="/entrar"
         element={
