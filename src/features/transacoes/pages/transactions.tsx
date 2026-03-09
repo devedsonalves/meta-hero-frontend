@@ -8,11 +8,15 @@ import Spinner from '@/components/ui/spinner'
 import SummaryCards from '../components/summary-cards'
 import TransactionList from '../components/transaction-list'
 import NovaTransacaoModal from '../components/transactions-modal'
+import DeleteModal from '../components/delete-modal'
 import {
   createTransaction,
+  updateTransaction,
+  deleteTransaction,
   getTransactions,
 } from '../services/transaction-service'
 import {
+  type Transaction,
   type CreateTransactionBody,
   type TransactionFilters,
 } from '../types/transaction'
@@ -70,6 +74,10 @@ const buildPeriodFilters = (
 export default function TransacoesPage() {
   const queryClient = useQueryClient()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null)
+  const [deletingTransaction, setDeletingTransaction] =
+    useState<Transaction | null>(null)
   const [isPeriodOpen, setIsPeriodOpen] = useState(false)
   const [selectedPeriod, setSelectedPeriod] = useState(periodOptions[0])
   const periodRef = useRef<HTMLDivElement>(null)
@@ -92,6 +100,24 @@ export default function TransacoesPage() {
     },
   })
 
+  const updateTransactionMutation = useMutation({
+    mutationKey: ['update-transaction'],
+    mutationFn: ({ id, data }: { id: string; data: CreateTransactionBody }) =>
+      updateTransaction(id, data),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['transactions'] })
+    },
+  })
+
+  const deleteTransactionMutation = useMutation({
+    mutationKey: ['delete-transaction'],
+    mutationFn: deleteTransaction,
+    onSuccess: () => {
+      setDeletingTransaction(null)
+      void queryClient.invalidateQueries({ queryKey: ['transactions'] })
+    },
+  })
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (periodRef.current && !periodRef.current.contains(e.target as Node)) {
@@ -103,7 +129,33 @@ export default function TransacoesPage() {
   }, [])
 
   const handleAdd = async (transaction: CreateTransactionBody) => {
-    await createTransactionMutation.mutateAsync(transaction)
+    if (editingTransaction) {
+      await updateTransactionMutation.mutateAsync({
+        id: editingTransaction.id,
+        data: transaction,
+      })
+    } else {
+      await createTransactionMutation.mutateAsync(transaction)
+    }
+  }
+
+  const handleEdit = (transaction: Transaction) => {
+    setEditingTransaction(transaction)
+    setIsModalOpen(true)
+  }
+
+  const handleDelete = (transaction: Transaction) => {
+    setDeletingTransaction(transaction)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!deletingTransaction) return
+    await deleteTransactionMutation.mutateAsync(deletingTransaction.id)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setEditingTransaction(null)
   }
 
   const transactions = transactionsQuery.data ?? []
@@ -193,7 +245,11 @@ export default function TransacoesPage() {
         <>
           <SummaryCards transactions={transactions} />
 
-          <TransactionList transactions={transactions} />
+          <TransactionList
+            transactions={transactions}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </>
       )}
 
@@ -206,9 +262,23 @@ export default function TransacoesPage() {
       <AnimatePresence>
         {isModalOpen && (
           <NovaTransacaoModal
-            onClose={() => setIsModalOpen(false)}
+            onClose={handleCloseModal}
             onAdd={handleAdd}
-            isSubmitting={createTransactionMutation.isPending}
+            isSubmitting={
+              createTransactionMutation.isPending ||
+              updateTransactionMutation.isPending
+            }
+            editingTransaction={editingTransaction}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {deletingTransaction && (
+          <DeleteModal
+            onClose={() => setDeletingTransaction(null)}
+            onConfirm={() => void handleConfirmDelete()}
+            isDeleting={deleteTransactionMutation.isPending}
           />
         )}
       </AnimatePresence>

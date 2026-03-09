@@ -12,18 +12,31 @@ interface NovaTransacaoModalProps {
   onClose: () => void
   onAdd: (t: Omit<Transaction, 'id'>) => Promise<void> | void
   isSubmitting?: boolean
+  editingTransaction?: Transaction | null
 }
 
 export default function NovaTransacaoModal({
   onClose,
   onAdd,
   isSubmitting = false,
+  editingTransaction = null,
 }: NovaTransacaoModalProps) {
-  const [type, setType] = useState<TransactionType>('despesa')
-  const [description, setDescription] = useState('')
-  const [amount, setAmount] = useState('')
-  const [category, setCategory] = useState<Category>('Outros')
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const isEditing = !!editingTransaction
+  const [type, setType] = useState<TransactionType>(
+    editingTransaction?.type ?? 'despesa'
+  )
+  const [description, setDescription] = useState(
+    editingTransaction?.description ?? ''
+  )
+  const [amount, setAmount] = useState(
+    editingTransaction ? String(editingTransaction.amount) : ''
+  )
+  const [category, setCategory] = useState<Category>(
+    (editingTransaction?.category as Category) ?? 'Outros'
+  )
+  const [date, setDate] = useState(
+    editingTransaction?.date ?? new Date().toISOString().split('T')[0]
+  )
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -65,7 +78,9 @@ export default function NovaTransacaoModal({
         className="relative w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 z-10"
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-[#464255]">Nova Transação</h2>
+          <h2 className="text-lg font-bold text-[#464255]">
+            {isEditing ? 'Editar Transação' : 'Nova Transação'}
+          </h2>
           <button
             onClick={onClose}
             className="p-1.5 rounded-xl text-gray-400 hover:bg-gray-100 transition-colors"
@@ -180,7 +195,13 @@ export default function NovaTransacaoModal({
             disabled={isSubmitting}
             className="w-full bg-[#00B074] text-white py-3 rounded-2xl font-bold text-sm hover:bg-[#009963] transition-colors mt-2"
           >
-            {isSubmitting ? 'Adicionando...' : 'Adicionar transação'}
+            {isSubmitting
+              ? isEditing
+                ? 'Salvando...'
+                : 'Adicionando...'
+              : isEditing
+                ? 'Salvar alterações'
+                : 'Adicionar transação'}
           </button>
         </form>
       </motion.div>

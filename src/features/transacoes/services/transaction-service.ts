@@ -1,6 +1,7 @@
 import { api } from '@/lib/api'
 import {
   type CreateTransactionBody,
+  type UpdateTransactionBody,
   type Transaction,
   type TransactionApiDTO,
   type TransactionFilters,
@@ -49,4 +50,26 @@ export const createTransaction = async (
   })
 
   return mapTransaction(response.data.data)
+}
+
+export const updateTransaction = async (
+  id: string,
+  body: UpdateTransactionBody
+): Promise<Transaction> => {
+  const payload: Record<string, unknown> = {}
+  if (body.type !== undefined) payload.type = body.type
+  if (body.category !== undefined) payload.category = body.category
+  if (body.amount !== undefined) payload.value = body.amount
+  if (body.date !== undefined) payload.date = body.date
+  if (body.description !== undefined) payload.description = body.description
+
+  const response = await api.put<TransactionResponse>(
+    `/transactions/${id}`,
+    payload
+  )
+  return mapTransaction(response.data.data)
+}
+
+export const deleteTransaction = async (id: string): Promise<void> => {
+  await api.delete(`/transactions/${id}`)
 }

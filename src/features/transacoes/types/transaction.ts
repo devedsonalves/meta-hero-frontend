@@ -34,6 +34,8 @@ export interface CreateTransactionBody {
   type: TransactionType
 }
 
+export type UpdateTransactionBody = Partial<CreateTransactionBody>
+
 export interface TransactionApiDTO {
   id: string
   userId: string

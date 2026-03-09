@@ -6,6 +6,8 @@ import {
   TrendingDown,
   ChevronLeft,
   ChevronRight,
+  Pencil,
+  Trash2,
 } from 'lucide-react'
 import {
   type Transaction,
@@ -18,6 +20,8 @@ const PER_PAGE = 8
 
 interface TransactionListProps {
   transactions: Transaction[]
+  onEdit: (transaction: Transaction) => void
+  onDelete: (transaction: Transaction) => void
 }
 
 type FilterKey = 'todas' | TransactionType
@@ -30,6 +34,8 @@ const tabs: { key: FilterKey; label: string }[] = [
 
 export default function TransactionList({
   transactions,
+  onEdit,
+  onDelete,
 }: TransactionListProps) {
   const [filter, setFilter] = useState<FilterKey>('todas')
   const [search, setSearch] = useState('')
@@ -140,6 +146,24 @@ export default function TransactionList({
                   >
                     {isReceita ? '+' : '-'} {formatCurrency(t.amount)}
                   </span>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => onEdit(t)}
+                      className="p-2 rounded-xl text-gray-400 hover:bg-gray-100 hover:text-[#2D9CDB] transition-colors"
+                      title="Editar"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      onClick={() => onDelete(t)}
+                      className="p-2 rounded-xl text-gray-400 hover:bg-red-50 hover:text-[#FF5B5B] transition-colors"
+                      title="Excluir"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </motion.div>
               )
             })
