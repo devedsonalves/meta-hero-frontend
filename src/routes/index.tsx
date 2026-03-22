@@ -7,7 +7,6 @@ import RegisterPage from '@/features/register/pages'
 import LandingPage from '@/features/landing/pages'
 import TransacoesPage from '@/features/transacoes/pages'
 import MetasMissoesPage from '@/features/metas-missoes/pages'
-import ShopPage from '@/features/shop/pages/shop'
 
 const Router = () => (
   <BrowserRouter>
@@ -53,14 +52,6 @@ const Router = () => (
         element={
           <PrivateRoute>
             <MetasMissoesPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/loja"
-        element={
-          <PrivateRoute>
-            <ShopPage />
           </PrivateRoute>
         }
       />
