@@ -5,13 +5,20 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '@/features/login/services/auth-service'
+import { useUser } from '@/hooks/use-user'
+import { User as UserType } from '@/features/login/types/auth'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { user } = useAuthStore()
+  const { data: userData } = useUser()
+  const { user: authUser } = useAuthStore()
+
+  // Favor fresh data from the hook, fallback to store
+  const user = (userData as UserType) || (authUser as UserType)
+
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const userMenuRef = useRef<HTMLDivElement>(null)
@@ -70,19 +77,44 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Right side actions */}
           <div className="flex items-center gap-2 lg:gap-6 ml-2 lg:ml-0">
             {/* XP / Coins — hidden on small screens */}
-            <div className="hidden md:flex items-center gap-4 bg-[#F8F9FA] px-4 py-2 rounded-xl">
+            <div className="hidden md:flex items-center gap-4 bg-[#F8F9FA] px-4 py-2 rounded-xl border border-gray-100/50">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-[10px] text-white font-bold">
-                  XP
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex flex-col items-center justify-center text-[10px] text-white font-black leading-tight shadow-md shadow-purple-200">
+                  <span className="text-[7px] opacity-80 uppercase tracking-tighter">
+                    LVL
+                  </span>
+                  <span>{user?.level || '1'}</span>
                 </div>
-                <span className="text-sm font-bold text-[#464255]">9/1000</span>
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[10px] font-black text-[#464255]">
+                      {user?.xp || 0} <span className="text-gray-400">XP</span>
+                    </span>
+                  </div>
+                  <div className="w-24 h-1.5 bg-gray-200 rounded-full overflow-hidden mt-0.5 border border-gray-100 shadow-inner">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{
+                        width: `${Math.min(100, Number(user?.xp || 0) / 10)}%`,
+                      }}
+                      className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="w-px h-4 bg-gray-300" />
+              <div className="w-px h-4 bg-gray-200 mx-1" />
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center text-[10px] text-white font-bold">
-                  $
+                <div className="w-7 h-7 bg-yellow-400 rounded-full flex items-center justify-center text-white font-black shadow-md shadow-yellow-100 border border-yellow-300">
+                  <span className="text-sm">H</span>
                 </div>
-                <span className="text-sm font-bold text-[#464255]">215</span>
+                <div className="flex flex-col">
+                  <span className="text-[9px] font-black text-gray-400 leading-none uppercase tracking-tighter">
+                    Hero Coins
+                  </span>
+                  <span className="text-xs font-black text-[#EAB308]">
+                    {user?.heroCoins || 0}
+                  </span>
+                </div>
               </div>
             </div>
 

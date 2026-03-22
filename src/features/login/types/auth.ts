@@ -8,6 +8,9 @@ export interface User {
   name: string
   email: string
   authProvider: string
+  xp: number
+  level: number
+  heroCoins: number
   createdAt: string
   updatedAt: string
 }
