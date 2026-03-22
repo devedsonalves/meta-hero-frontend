@@ -41,9 +41,9 @@ export default function LandingFooter() {
           <ul className="space-y-2 text-zinc-500 text-xs">
             {PLATFORM_LINKS.map((l) => (
               <li key={l}>
-                <a href="#" className="hover:text-zinc-200 transition-colors">
+                <Link to="/" className="hover:text-zinc-200 transition-colors">
                   {l}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -74,9 +74,9 @@ export default function LandingFooter() {
           <ul className="space-y-2 text-zinc-500 text-xs">
             {LEGAL_LINKS.map((l) => (
               <li key={l}>
-                <a href="#" className="hover:text-zinc-200 transition-colors">
+                <Link to="/" className="hover:text-zinc-200 transition-colors">
                   {l}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

@@ -6,18 +6,14 @@ import LoginPage from '@/features/login/pages'
 import RegisterPage from '@/features/register/pages'
 import LandingPage from '@/features/landing/pages'
 import TransacoesPage from '@/features/transacoes/pages'
+import MetasMissoesPage from '@/features/metas-missoes/pages'
+import ShopPage from '@/features/shop/pages/shop'
 
 const Router = () => (
   <BrowserRouter>
     <Routes>
-      <Route
-        path="/"
-        element={
-          <PublicRoute>
-            <LandingPage />
-          </PublicRoute>
-        }
-      />
+      <Route path="/" element={<LandingPage />} />
+
       <Route
         path="/entrar"
         element={
@@ -26,6 +22,7 @@ const Router = () => (
           </PublicRoute>
         }
       />
+
       <Route
         path="/registro"
         element={
@@ -34,6 +31,7 @@ const Router = () => (
           </PublicRoute>
         }
       />
+
       <Route
         path="/dashboard"
         element={
@@ -47,6 +45,22 @@ const Router = () => (
         element={
           <PrivateRoute>
             <TransacoesPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/metas-missoes"
+        element={
+          <PrivateRoute>
+            <MetasMissoesPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/loja"
+        element={
+          <PrivateRoute>
+            <ShopPage />
           </PrivateRoute>
         }
       />

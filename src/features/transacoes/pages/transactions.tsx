@@ -229,10 +229,12 @@ export default function TransacoesPage() {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 bg-[#00B074] text-white px-5 py-3.5 rounded-2xl font-bold text-sm hover:bg-[#009963] transition-colors shadow-sm shrink-0"
+            className="flex items-center gap-2 bg-[#00B074] text-white px-5 py-4.5 rounded-2xl font-bold text-sm hover:bg-[#009963] transition-all shadow-sm active:scale-95 group"
           >
-            <Plus size={18} />
-            <span className="hidden sm:inline">Nova transação</span>
+            <div className="bg-white/20 p-1 rounded-lg group-hover:rotate-90 transition-transform duration-300">
+              <Plus size={16} strokeWidth={3} />
+            </div>
+            <span>Nova Transação</span>
           </button>
         </div>
       </div>
