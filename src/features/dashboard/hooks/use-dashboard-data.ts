@@ -37,6 +37,8 @@ export function useDashboardData() {
   const lineData = data?.missionHistory || []
   const expensesData = data?.expensesSummary || []
   const barData = data?.byCategory || []
+  const goals = data?.goals || []
+  const missions = data?.missions || []
   const summary = data?.summary || {
     userName: 'Usuário',
     currentBalance: 0,
@@ -58,5 +60,7 @@ export function useDashboardData() {
     expensesData,
     barData,
     summary,
+    goals,
+    missions,
   }
 }
