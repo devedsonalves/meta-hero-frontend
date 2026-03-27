@@ -23,12 +23,16 @@ export type ExpensesSummaryItem = {
   expenses: number
 }
 
+import { Goal, UserMission } from '@/features/metas-missoes/types'
+
 export type DashboardData = {
   summary: DashboardSummary
   goalProgress: GoalProgressItem[]
   missionHistory: DashboardChartItem[]
   expensesSummary: ExpensesSummaryItem[]
   byCategory: DashboardChartItem[]
+  goals: Goal[]
+  missions: UserMission[]
 }
 
 export type GetDashboardParams = {

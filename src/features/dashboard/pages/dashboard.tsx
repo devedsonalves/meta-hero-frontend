@@ -26,8 +26,11 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { formatDate, toBRL, periodOptions } from '../utils'
 import { useDashboardData } from '../hooks/use-dashboard-data'
+import { useNavigate } from 'react-router-dom'
 
 function DashboardPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const navigate = useNavigate()
   const {
     isFilterOpen,
     setIsFilterOpen,
@@ -41,6 +44,10 @@ function DashboardPage() {
     expensesData,
     barData,
     summary,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    goals,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    missions,
   } = useDashboardData()
 
   return (
