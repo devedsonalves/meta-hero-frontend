@@ -22,4 +22,10 @@ export type MutationHandler<TData, TVariables> = (
   >
 ) => UseMutationResult<TData, Error, TVariables>
 
-export const queryClient = new QueryClient()
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+})

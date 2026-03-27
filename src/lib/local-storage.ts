@@ -1,7 +1,12 @@
 const getItem = <T = unknown>(key: string): T | null => {
   const value = window.localStorage.getItem(key)
   if (!value) return null
-  return JSON.parse(value) as T
+  // Guard against invalid JSON like "undefined" or malformed strings
+  try {
+    return JSON.parse(value) as T
+  } catch {
+    return null
+  }
 }
 
 const setItem = (key: string, value: unknown) => {

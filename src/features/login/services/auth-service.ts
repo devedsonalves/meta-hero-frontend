@@ -1,14 +1,19 @@
-import { type LoginBody } from '../types/auth'
+import { api } from '@/lib/api'
+import { type LoginBody, type LoginResponse, type User } from '../types/auth'
 
-export const login = async (body: LoginBody) => {
-  const res = new Promise<boolean>((resolve, reject) => {
-    if (body.username !== 'user' || body.password !== 'user') {
-      reject(new Error('Invalid username or password'))
-    }
-
-    setTimeout(() => {
-      resolve(true)
-    }, 2000)
+export const login = async (body: LoginBody): Promise<LoginResponse> => {
+  const response = await api.post<LoginResponse>('/auth/login', {
+    email: body.email,
+    password: body.password,
   })
-  return await res
+  return response.data
+}
+
+export const getMe = async (): Promise<User> => {
+  const response = await api.get<User>('/auth/me')
+  return response.data
+}
+
+export const logout = async () => {
+  await api.post('/auth/logout')
 }

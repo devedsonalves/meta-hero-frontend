@@ -1,25 +1,57 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Articles from '@/features/dashboard/pages'
-import Home from '@/features/home/pages'
 import PrivateRoute from './private-route'
 import PublicRoute from './public-route'
+import LoginPage from '@/features/login/pages'
+import RegisterPage from '@/features/register/pages'
+import LandingPage from '@/features/landing/pages'
+import TransacoesPage from '@/features/transacoes/pages'
+import MetasMissoesPage from '@/features/metas-missoes/pages'
 
 const Router = () => (
   <BrowserRouter>
     <Routes>
+      <Route path="/" element={<LandingPage />} />
+
       <Route
-        path="/"
+        path="/entrar"
         element={
           <PublicRoute>
-            <Home />
+            <LoginPage />
           </PublicRoute>
         }
       />
+
+      <Route
+        path="/registro"
+        element={
+          <PublicRoute>
+            <RegisterPage />
+          </PublicRoute>
+        }
+      />
+
       <Route
         path="/dashboard"
         element={
           <PrivateRoute>
             <Articles />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/transacoes"
+        element={
+          <PrivateRoute>
+            <TransacoesPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/metas-missoes"
+        element={
+          <PrivateRoute>
+            <MetasMissoesPage />
           </PrivateRoute>
         }
       />
